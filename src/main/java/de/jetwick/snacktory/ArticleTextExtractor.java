@@ -508,9 +508,10 @@ public class ArticleTextExtractor {
 		boolean firstIter = true;
 		for (Element e : els) {
 			String sourceUrl = e.attr("src");
+			if(sourceUrl.endsWith(".gif") || sourceUrl.contains(".gif")){ continue; }
 			//System.out.println(" ==>>> considering image : " + sourceUrl
 					//+ " ...");
-			if (sourceUrl.isEmpty() || isAdImage(sourceUrl) || sourceUrl.endsWith("spacer.gif") || sourceUrl.endsWith("PinExt.png")) {
+			if (sourceUrl.isEmpty() || isAdImage(sourceUrl) || sourceUrl.endsWith("PinExt.png")) {
 				continue;
 			}
 			if(sourceUrl.indexOf("/widget") > 0 || sourceUrl.indexOf("/icon") > 0) {
