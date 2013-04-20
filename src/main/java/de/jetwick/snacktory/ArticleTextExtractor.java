@@ -128,7 +128,7 @@ public class ArticleTextExtractor {
 			if (bestParent != null) {
 				String childWeightStr = bestParent.attr("childweight");
 				int childWeight = 0;
-				if (childWeightStr != null) {
+				if (childWeightStr != null && !childWeightStr.isEmpty()) {
 					childWeight = Integer.parseInt(childWeightStr);
 				}
 
@@ -206,6 +206,9 @@ public class ArticleTextExtractor {
 
 		// mohaps: hack to get absolute url of image
 		String imgUrl = res.getImageUrl();
+		
+		if(imgUrl.isEmpty()){ return res; }
+		
 		if (!(imgUrl.startsWith("http://") || imgUrl.startsWith("https://"))) {
 			// System.out.println(">> relative img url : "+imgUrl);
 			if (imgUrl.startsWith("/")) {
@@ -220,8 +223,12 @@ public class ArticleTextExtractor {
 					imgUrl = originalUrl + imgUrl;
 				} else {
 					imgUrl = imgUrl.split("\\?")[0];
-					int index = imgUrl.lastIndexOf('/');
-					imgUrl = imgUrl.substring(0, index) + "/" + imgUrl;
+					int index = originalUrl.lastIndexOf('/', 8);
+					if(index >= 0) { 
+						imgUrl = originalUrl.substring(0, index) + "/" + imgUrl;
+					} else {
+						imgUrl = originalUrl + "/" + imgUrl;
+					}
 				}
 
 			}
@@ -230,7 +237,7 @@ public class ArticleTextExtractor {
 			imgUrl = new URL(res.getOriginalUrl()).getProtocol().toString()
 					+ "://" + imgUrl;
 		}
-		res.setImageUrl(SHelper.getLargestPossibleImageUrl(imgUrl));
+		res.setImageUrl(SHelper.getLargestPossibleImageUrl(imgUrl)); 
 		return res;
 	}
 
