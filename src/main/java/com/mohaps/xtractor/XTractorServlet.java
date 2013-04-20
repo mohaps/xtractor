@@ -47,6 +47,8 @@ public class XTractorServlet extends HttpServlet {
 			ExtractorResult result = fetchAndExtractFromUrl(pageUrl);
 			String text2 = SHelper.replaceSmartQuotes(result.getText());
 			String[] paras = text2.split("\\n");
+			String fixed_title = SHelper.replaceSmartQuotes(result.getTitle());
+			req.setAttribute("extracted_title", fixed_title);
 			req.setAttribute("extracted", result);
 			req.setAttribute("extracted_paragraphs", paras);
 			req.getRequestDispatcher("/xtractor.jsp").forward(req, resp);

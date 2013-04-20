@@ -27,7 +27,7 @@
 <link rel="stylesheet" href="/css/normalize.css">
 <link rel="stylesheet" href="/css/main.css">
 <script src="/js/vendor/modernizr-2.6.2.min.js"></script>
-<title>XTractor - an algorithmic text extraction from webpages demo</title>
+<title>[<c:out value="${extracted_title}"/>] XTractor - an algorithmic text extraction from webpages demo</title>
 </head>
 <body>
 	<!--[if lt IE 7]>
@@ -53,7 +53,7 @@
 			</div>
 			<div class="content">
 				<div class="content_section">
-					<div class ="extracted_title"><strong><a href="<c:out value="${extracted.link}"/>"><c:out value="${extracted.title}"/></a></strong></div>
+					<div class ="extracted_title"><strong><a href="<c:out value="${extracted.link}"/>"><c:out value="${extracted_title}"/></a></strong></div>
 					<c:if test="${extracted.image != null}">
    						<div align="center" class="extracted_image_container">
 							<a href="<c:out value="${extracted.image}"/>"><img src="<c:out value="${extracted.image}"/>" class="extracted_image" style="border: 0px;"/></a>
