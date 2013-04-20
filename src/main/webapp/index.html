@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<!-- 
+ * 	XTractor : an algorithmic text extractor from web pages demo
+ *  Website: http://xtractor.herokuapp.com
+ *  Author: Saurav Mohapatra (mohaps@gmail.com) 
+ *  
+ *  Copyright (c) 2013, Saurav Mohapatra
+ *  All rights reserved.
+ -->
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js">
+<!--<![endif]-->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="description" content="">
+<meta name="viewport" content="width=device-width">
+<link href="http://fonts.googleapis.com/css?family=Roboto:300"
+	rel="stylesheet" type="text/css" />
+
+<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+<link rel="stylesheet" href="/css/normalize.css">
+<link rel="stylesheet" href="/css/main.css">
+<script src="/js/vendor/modernizr-2.6.2.min.js"></script>
+<title>XTractor - an algorithmic text extraction from webpages
+	demo</title>
+</head>
+<body>
+	<!--[if lt IE 7]>
+            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+        <![endif]-->
+	<div align="center">
+		<div class="mypage" align="left">
+			<!-- Add your site or application content here -->
+			<div class="header">
+				<div align="center">
+					<a href="/"><img src="/images/xtractor_logo_header.png"
+						alt="XTractor - algorithmic text extraction from webpages"
+						style="border: 0px;"></a>
+				</div>
+				<div class="topnav" align="center"
+					style="margin-top: 2px; padding-top: 4px; padding-bottom: 4px; margin-bottom: 6px; border-bottom: 1px dashed #434343; border-top: 1px dashed #434343">
+
+					<a href="/"> Home</a> | <a href="/#whatisit">What is it?</a> | <a
+						href="/#howitworks">How does it work?</a> | <a href="/#credits">Who
+						built this?</a> | <a href="http://tldrzr.herokuapp.com">You might
+						also like...</a>
+				</div>
+
+			</div>
+			<div class="demo_section">
+				<h2>Try it out!</h2>
+				<div>
+					<form name="xtractor" method="GET" action="/xtractor/"
+						accept-charset="utf-8">
+						<input type="text" style="width: 99%" name="url"
+							value="http://www.mumbaiconfidential.com/2013/04/09/arcane-algorithmic-anarachy-aka-amazon-preorder-hijinks/">
+						<input type="submit" value="Extract Text" style="margin: 2px;">
+					</form>
+				</div>
+			</div>
+
+			<div class="content_section">
+				<a name="whatisit">
+					<h2>What is XTractor?</h2>
+				</a>
+				<p>
+					XTractor is an algorithmic text extractor from web pages written in
+					Java. It builds upon the "commonly used web design practices"
+					approach (from <a
+						href="https://code.google.com/p/arc90labs-readability/">readability.js</a>,
+					<a href="https://github.com/jiminoc/goose">goose</a> and <a
+						href="https://github.com/karussell/snacktory">snacktory</a>) to
+					create a set of heuristics for fast article text extraction. It
+					adds several features like
+				<ul>
+					<li>paragraph preservation,</li>
+					<li>better image detection heuristics,</li>
+					<li>sibling score based enhancements to article detection</li>
+				</ul>
+				
+				If you find a link which misbehaves with this, please do let me know at <a href="mailto:mohaps@gmail.com">mohaps AT gmail DOT com</a> or tweet it to me at <a href="http://twitter.com/mohaps">@mohaps</a>.
+				</p>
+				<p>
+					XTractor is built using <a href="http://jsoup.org">JSoup</a> and <a
+						href="http://hc.apache.org/httpcomponents-asyncclient-dev/">Apache
+						HTTP Async Client
+				</p>
+				.
+				</p>
+				<a name="samples">
+					<h2>Live Samples</h2>
+				</a>
+				<p>Here are some sample links of extracted text from around the
+					web:
+				<ul>
+					<li><a
+						href="http://localhost:8080/xtractor/?url=http%3A%2F%2Fwww.espncricinfo.com%2Fengland%2Fcontent%2Fcurrent%2Fstory%2F631001.html">Cricinfo.com
+							article about the passing of former England captain Mike Denness</a></li>
+					<li><a
+						href="http://localhost:8080/xtractor/?url=http%3A%2F%2Fwww.foxnews.com%2Fentertainment%2F2013%2F04%2F18%2Freview-tom-cruise-tones-it-down-in-visually-stunning-oblivion%2F">Fox
+							News review of the movie Oblivion</a></li>
+					<li><a
+						href="http://localhost:8080/xtractor/?url=http%3A%2F%2Fwww.mumbaiconfidential.com%2F2013%2F04%2F02%2Fback-from-wondercon-anaheim%2F">One
+							of my own Wordpress blog posts</a></li>
+				</ul>
+				</p>
+				<a name="howitworks">
+					<h2>How does XTractor work?</h2>
+				</a>
+				<p>Similar to the readability approach, XTractor uses heuristics
+					based on common web design practices to extract text. It walks
+					through the DOM of the HTML removing nodes that are unlikely to be
+					the main article text (and fluff like ads, banners, shout outs etc.). It then
+					assigns a score to the container elements to find the best possible
+					match for article text. It also extracts one significant image
+					representing that page. The resultant output is sanitized and
+					tokenized into paragraphs and is returned to the caller.</p>
+					
+				<a name="credits"><h2>Who built this?</h2></a>
+				<p>
+					<a href="http://xtractor.herokuapp.com">XTractor</a> is a weekend
+					project/quick hack demo created by <a
+						href="mailto:mohaps@gmail.com">Saurav Mohapatra</a>. If you like
+					this, you might also like my other hack/weekend project <a
+						href="http://tldrzr.herokuapp.com">TL;DRzr</a> - <em>an
+						algorithmic summary generator</em>.
+				</p>
+				<p>
+					I wrote this to improve the article detection of <a
+						href="http://tldrzr.herokuapp.com">my algorithmic summarizer demo</a>.
+				</p>
+			</div>
+
+			<div class="footer">
+				
+				<p>
+					Still very much wet paint/work in progress. Comments/Crits are
+					appreciated. Contact author via <a href="mailto:mohaps@gmail.com">mohaps
+						AT gmail DOT com</a> or my <a href="http://mohaps.com">blog</a> or my
+					twitter feed : <a href="http://twitter.com/mohaps">@mohaps</a>.
+				</p>
+			</div>
+		</div>
+	</div>
+
+	<!--  script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+        <script src="js/plugins.js"></script>
+        <script src="js/main.js"></script -->
+
+	<!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+	<script>
+		<script>(function(i, s, o, g, r, a, m) {
+			i['GoogleAnalyticsObject'] = r;
+			i[r] = i[r] || function() {
+				(i[r].q = i[r].q || []).push(arguments)
+			}, i[r].l = 1 * new Date();
+			a = s.createElement(o), m = s.getElementsByTagName(o)[0];
+			a.async = 1;
+			a.src = g;
+			m.parentNode.insertBefore(a, m)
+		})(window, document, 'script',
+				'//www.google-analytics.com/analytics.js', 'ga');
+
+		ga('create', 'UA-1728759-9', 'herokuapp.com');
+		ga('send', 'pageview');
+	</script>
+</body>
+</html>

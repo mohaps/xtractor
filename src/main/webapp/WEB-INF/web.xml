@@ -6,17 +6,21 @@
     version="2.5">
 
     <welcome-file-list>
-        <welcome-file>index.jsp</welcome-file>
+        <welcome-file>index.html</welcome-file>
     </welcome-file-list>
     
   <servlet>
-    <servlet-name>hello</servlet-name>
-    <servlet-class>com.example.HelloServlet</servlet-class>
+    <servlet-name>xtractor</servlet-name>
+    <servlet-class>com.mohaps.xtractor.XTractorServlet</servlet-class>
   </servlet>
 
   <servlet-mapping>
-    <servlet-name>hello</servlet-name>
-    <url-pattern>/hello</url-pattern>
+    <servlet-name>xtractor</servlet-name>
+    <url-pattern>/xtractor</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>xtractor</servlet-name>
+    <url-pattern>/xtractor/*</url-pattern>
   </servlet-mapping>
 
 

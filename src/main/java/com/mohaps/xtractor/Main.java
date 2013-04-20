@@ -1,4 +1,4 @@
-package com.example;
+package com.mohaps.xtractor;
 
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.webapp.WebAppContext;
