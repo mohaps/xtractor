@@ -175,7 +175,7 @@ public class ArticleTextExtractor {
 		if (bestMatchElement != null) {
 			Element imgEl = determineImageSource(bestMatchElement);
 			if (imgEl != null) {
-				System.out.println("--> found image url : "+imgEl.attr("src"));
+				//System.out.println("--> found image url : "+imgEl.attr("src"));
 				res.setImageUrl(SHelper.replaceSpaces(imgEl.attr("src")));
 				// TODO remove parent container of image if it is contained in
 				// bestMatchElement
@@ -645,8 +645,8 @@ public class ArticleTextExtractor {
 			}
 			weight = (int) (weight * score);
 
-			System.out.println(" Image (" + sourceUrl + ") Weight : " + weight
-					+ " Score : " + score);
+			//System.out.println(" Image (" + sourceUrl + ") Weight : " + weight
+					//+ " Score : " + score);
 			if (weight > maxWeight) {
 				maxWeight = weight;
 				maxNode = e;
