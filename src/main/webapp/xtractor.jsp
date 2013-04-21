@@ -72,6 +72,14 @@
 					</div>
 				</div>
 
+				<div>
+					<form name="xtractor" method="GET" action="/xtractor/"
+						accept-charset="utf-8">
+						<input type="text" style="width: 99%" name="url"
+							value="<c:out value="${extracted.link}"/>">
+						<input type="submit" value="Extract Text" style="margin: 2px;">
+					</form>
+				</div>
 				<div class="footer">
 					<div>
 						<a href="/"><strong>&lt;&lt;</strong> back to XTractor</a>

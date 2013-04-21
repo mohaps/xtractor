@@ -19,6 +19,14 @@ import de.jetwick.snacktory.SHelper;
 public class XTractorServlet extends HttpServlet {
 
 	private static final Logger LOG = Logger.getLogger(XTractorServlet.class.getName());
+	private static Fetcher fetcher;
+	static {
+		try {
+			fetcher = new Fetcher();
+		} catch (Exception ex) {
+			LOG.log(Level.SEVERE, "Failed to initialize fetcher", ex);
+		}
+	}
 	/**
 	 * 
 	 */
@@ -65,15 +73,10 @@ public class XTractorServlet extends HttpServlet {
 
 	private ExtractorResult fetchAndExtractFromUrl(String urlString)
 			throws Exception {
-		Fetcher fetcher = new Fetcher();
 		FetchResult fResult;
-		try {
-			fResult = fetcher.fetch(urlString);
-		} finally {
-			fetcher.shutdown();
-		}
+		fResult = fetcher.fetch(urlString);
 		if (fResult != null && fResult.isPage()) {
-			Extractor extractor = new Extractor();
+			Extractor extractor = new Extractor(fetcher);
 			ExtractorResult eResult = extractor.extract(fResult.getContent(),
 					fResult.getCharset(), fResult.getActualUrl());
 

@@ -9,6 +9,7 @@ import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpHead;
 import org.apache.http.concurrent.FutureCallback;
 import org.apache.http.impl.nio.client.DefaultHttpAsyncClient;
 import org.apache.http.nio.client.HttpAsyncClient;
@@ -128,6 +129,43 @@ public class Fetcher {
 
 	}
 
+	public HeadResult fetchHead(String urlString, long timeoutMillis) throws Exception {
+		if(!isActive()){ throw new FetchException("Fetcher is not active!"); }
+		String actualUrl = cleanupUrl(urlString);
+		HttpHead get = new HttpHead(actualUrl);
+		Future<HttpResponse> responseFuture = client.execute(get, null);
+		if (responseFuture == null) {
+			throw new FetchException("Failed to execute head request for ["
+					+ urlString + "]");
+		}
+		HttpResponse response;
+		if (timeoutMillis > 0) {
+			try {
+				response = responseFuture.get(timeoutMillis,
+						TimeUnit.MILLISECONDS);
+			} catch (TimeoutException ex) {
+				responseFuture.cancel(true);
+				throw new FetchException("fetch head for [" + urlString
+						+ "] timed out", ex);
+			}
+		} else {
+			response = responseFuture.get();
+		}
+		
+		if (response == null) {
+			throw new FetchException("failed to get response while fetching head for [" + urlString + "]");
+		} else {
+			int httpStatusCode = response.getStatusLine().getStatusCode();
+			if(httpStatusCode == 200) {
+				long contentLength = getContentLength(response);
+				String contentType = getContentType(response);
+				return HeadResult.NewSuccess(urlString, httpStatusCode, contentType, contentLength);
+			} else {
+				return HeadResult.NewFailed(urlString, httpStatusCode);
+			}
+		}
+	}
+	
 	protected long getContentLength(HttpResponse response) {
 		HttpEntity entity = response.getEntity();
 		if (entity == null) {

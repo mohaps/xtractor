@@ -6,6 +6,8 @@ import java.io.InputStream;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
+import com.mohaps.fetch.Fetcher;
+
 import de.jetwick.snacktory.ArticleTextExtractor;
 import de.jetwick.snacktory.ExtractedContent;
 import de.jetwick.snacktory.OutputFormatter;
@@ -13,7 +15,10 @@ import de.jetwick.snacktory.OutputFormatter;
 public class Extractor {
 
 	private OutputFormatter formatter = new OutputFormatter();
-
+	private Fetcher fetcher;
+	public Extractor(Fetcher fetcher) {
+		this.fetcher = fetcher;
+	}
 	public ExtractorResult extract(byte[] content, String charset,
 			String baseUrl) throws Exception {
 		return extract(new ByteArrayInputStream(content), charset, baseUrl);
@@ -22,7 +27,7 @@ public class Extractor {
 	public ExtractorResult extract(InputStream input, String charset,
 			String baseUrl) throws Exception {
 		long startTime = System.currentTimeMillis();
-		ArticleTextExtractor extractor = new ArticleTextExtractor();
+		ArticleTextExtractor extractor = new ArticleTextExtractor(fetcher);
 		Document doc = Jsoup.parse(input, charset, baseUrl);
 		ExtractedContent extracted = new ExtractedContent();
 		extracted.setOriginalUrl(baseUrl);

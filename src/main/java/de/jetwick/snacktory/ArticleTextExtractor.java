@@ -17,6 +17,9 @@ import org.jsoup.nodes.Element;
 import org.jsoup.nodes.Node;
 import org.jsoup.select.Elements;
 
+import com.mohaps.fetch.Fetcher;
+import com.mohaps.fetch.HeadResult;
+
 /**
  * This class is thread safe.
  * 
@@ -47,7 +50,9 @@ public class ArticleTextExtractor {
 	private static final OutputFormatter DEFAULT_FORMATTER = new OutputFormatter();
 	private OutputFormatter formatter = DEFAULT_FORMATTER;
 
-	public ArticleTextExtractor() {
+	private Fetcher fetcher;
+	public ArticleTextExtractor(Fetcher fetcher) {
+		this.fetcher = fetcher;
 		setUnlikely("com(bx|ment|munity)|dis(qus|cuss)|e(xtra|[-]?mail)|foot|"
 				+ "header|menu|re(mark|ply)|rss|sh(are|outbox)|sponsor"
 				+ "a(d|ll|gegate|rchive|ttachment)|(pag(er|ination))|popup|print|"
@@ -170,7 +175,7 @@ public class ArticleTextExtractor {
 		if (bestMatchElement != null) {
 			Element imgEl = determineImageSource(bestMatchElement);
 			if (imgEl != null) {
-				//System.out.println("--> found image url : "+imgEl.attr("src"));
+				System.out.println("--> found image url : "+imgEl.attr("src"));
 				res.setImageUrl(SHelper.replaceSpaces(imgEl.attr("src")));
 				// TODO remove parent container of image if it is contained in
 				// bestMatchElement
@@ -194,7 +199,6 @@ public class ArticleTextExtractor {
 			}
 		}
 
-		
 		if (res.getImageUrl().isEmpty()) {
 			res.setImageUrl(extractImageUrl(doc));
 		}
@@ -507,11 +511,19 @@ public class ArticleTextExtractor {
 		double score = 1;
 		boolean firstIter = true;
 		for (Element e : els) {
+			
 			String sourceUrl = e.attr("src");
+			if(sourceUrl == null || sourceUrl.isEmpty()) {
+				sourceUrl = e.attr("data-src");
+			}
+
+			if(sourceUrl == null || sourceUrl.isEmpty()) {
+				continue;
+			}
+			//System.out.println(" ==>>> considering image : [" + sourceUrl+ "] e = "+e+"...");
 			if(sourceUrl.endsWith(".gif") || sourceUrl.contains(".gif")){ continue; }
-			//System.out.println(" ==>>> considering image : " + sourceUrl
-					//+ " ...");
-			if (sourceUrl.isEmpty() || isAdImage(sourceUrl) || sourceUrl.endsWith("PinExt.png")) {
+					
+			if (sourceUrl.isEmpty() || isAdImage(sourceUrl) || sourceUrl.endsWith("spacer.gif") || sourceUrl.endsWith("PinExt.png")) {
 				continue;
 			}
 			if(sourceUrl.indexOf("/widget") > 0 || sourceUrl.indexOf("/icon") > 0) {
@@ -521,11 +533,21 @@ public class ArticleTextExtractor {
 				maxNode = e;
 				firstIter = false;
 			}
+
 			int weight = 0;
+			String imgClass = e.attr("class");
+			if(imgClass != null && !imgClass.isEmpty()) {
+				if(imgClass.startsWith("main")) {
+					maxNode = e;
+					break;
+				}
+			}
 			if (sourceUrl.indexOf("gravatar.com/") > 0) {
 				//System.out.println("  ------------> PROFILE IMAGE ....");
-				weight -= 30;
+				weight -= 60;
 			}
+			boolean heightNotFound = true;
+			boolean widthNotFound = true;
 			try {
 				boolean notFound = true;
 				String s = e.attr("height");
@@ -541,6 +563,7 @@ public class ArticleTextExtractor {
 						notFound = false;
 					} 
 				}
+				heightNotFound = notFound;
 				if (height > 100)
 					weight += 20;
 				else if (height < 100 && !notFound)
@@ -563,8 +586,12 @@ public class ArticleTextExtractor {
 						notFound = false;
 					}
 				}
+				widthNotFound = notFound;
+
 				if (width > 300)
-					weight += 20;
+					weight += 200;
+				else if(width > 100)
+					weight += 80;
 				else if (width < 50 && !notFound)
 					weight += 50;
 				else if (width < 100 && !notFound)
@@ -574,6 +601,30 @@ public class ArticleTextExtractor {
 				else if (width < 300 && !notFound)
 					weight -= 20;
 			} catch (Exception ex) {
+			}
+			
+			if(heightNotFound && widthNotFound && fetcher != null) {
+				try {
+					HeadResult head = fetcher.fetchHead(sourceUrl, 500);
+					if(head.isSuccess()) {
+						long contentLength = head.getContentLength();
+						if(contentLength >= 200 * 1024) {
+							weight += 1000;
+						} else if(contentLength >= 200 * 1024) {
+							weight += 400;
+						} else if(contentLength >= 100 * 1024) {
+							weight += 200;
+						} else if(contentLength >= 80 * 1024) {
+							weight += 100;
+						} else if(contentLength >= 50 * 1024) {
+							weight += 50;
+						}
+					} else {
+						weight -= 500;
+					}
+				} catch (Exception ex) {
+					
+				}
 			}
 			String alt = e.attr("alt");
 			if (alt.length() > 55)
@@ -594,8 +645,8 @@ public class ArticleTextExtractor {
 			}
 			weight = (int) (weight * score);
 
-			//System.out.println(" Image (" + sourceUrl + ") Weight : " + weight
-					//+ " Score : " + score);
+			System.out.println(" Image (" + sourceUrl + ") Weight : " + weight
+					+ " Score : " + score);
 			if (weight > maxWeight) {
 				maxWeight = weight;
 				maxNode = e;
@@ -609,7 +660,7 @@ public class ArticleTextExtractor {
 		int value = 0;
 		String style = e.attr("style");
 		if(style != null && style.length() > 0){
-			//System.out.println(">> Parsing Style ["+style+"] for "+name);
+			System.out.println(">> Parsing Style ["+style+"] for "+name);
 		}
 		return value;
 	}
@@ -682,7 +733,13 @@ public class ArticleTextExtractor {
 	}
 
 	private boolean isAdImage(String imageUrl) {
-		return SHelper.count(imageUrl, "ad") >= 2;
+		return imageUrl.endsWith(".gif")
+				||SHelper.count(imageUrl, "ad") >= 2 
+				|| imageUrl.indexOf("scorecardresearch.com") > 0
+				|| imageUrl.indexOf("doubleclick.com") > 0
+				|| imageUrl.endsWith("/logo.jpg")
+				|| imageUrl.endsWith("/logo.png");
+				
 	}
 
 	/**
