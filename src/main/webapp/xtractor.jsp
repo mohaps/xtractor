@@ -60,6 +60,11 @@
 							<a href="<c:out value="${extracted.image}"/>"><img src="<c:out value="${extracted.image}"/>" class="extracted_image" style="border: 0px;"/></a>
 						</div>
 					</c:if>
+					
+					<div class="extracted_footer" align="right">
+						extracted in ${extracted.timeTakenMillis} milliseconds from <a
+									href="<c:out value="${extracted.link}"/>">original content</a>. 
+					</div>
 					<div class="extracted_text">
 					<c:forEach var="extractedParagraph" items="${extracted_paragraphs}">
 						<div class="extracted_paragraph">
