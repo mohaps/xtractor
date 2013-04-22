@@ -122,13 +122,13 @@ background-color: rgba(220,10, 10, 1);
 	padding: 3px;
 	background-color: rgb(255, 255, 255);
 	max-width: 800px;
-	font-family: Roboto, sans-serif;
-	font-weight: 300;
+	font-family: Open Sans, sans-serif;
+	font-weight: 400;
 }
 
 .topnav {
-	font-size: 0.9em;
-	font-weight: bold;
+	font-size: 0.7em;
+	font-weight: 400;
 }
 
 .footer {
@@ -171,14 +171,14 @@ a:active {
 
 .extracted_title {
 	font-size: 1.8em;
-	font-family: Roboto, sans-serif;
-	font-weight: 300;
+	font-family: Open Sans, sans-serif;
+	font-weight: 900;
 }
 
 .extracted_text {
 	font-size: 1.1em;
-	font-family: Roboto, sans-serif;
-	font-weight: 300;
+	font-family: Open Sans, sans-serif;
+	font-weight: 400;
 	padding-left: 0.02em;
 	padding-right: 0.02em;
 }
@@ -218,8 +218,8 @@ a:active {
 	padding-bottom: 2px;
 	padding-left: 1px;
 	padding-right: 1px;
-	font-family: Roboto, sans-serif;
-	font-weight: 300;
+	font-family: Open Sans, sans-serif;
+	font-weight: 400;
 	font-size: 0.8em;
 }
 
