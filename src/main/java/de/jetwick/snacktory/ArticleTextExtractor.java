@@ -663,7 +663,7 @@ public class ArticleTextExtractor {
 		int value = 0;
 		String style = e.attr("style");
 		if(style != null && style.length() > 0){
-			System.out.println(">> Parsing Style ["+style+"] for "+name);
+			//System.out.println(">> Parsing Style ["+style+"] for "+name);
 		}
 		return value;
 	}

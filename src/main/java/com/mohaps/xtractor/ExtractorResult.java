@@ -13,6 +13,7 @@ public class ExtractorResult {
 	private String video;
 	private String charset;
 	private List<String> keywords;
+	private String summary;
 
 	public ExtractorResult(String title, String text, String link,
 			String image, String video, String charset, long timeTakenMillis,
@@ -27,6 +28,8 @@ public class ExtractorResult {
 		this.video = video;
 	}
 
+	public void setSummary(String summary){ this.summary = summary; }
+	public String getSummary(){ return summary; }
 	public String getVideo() {
 		return video;
 	}

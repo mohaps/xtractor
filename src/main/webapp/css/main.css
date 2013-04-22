@@ -174,7 +174,12 @@ a:active {
 	font-family: Open Sans, sans-serif;
 	font-weight: 900;
 }
-
+.extracted_summary{
+	border-bottom: 1px dashed rgba(3,3,3, 0.5);
+	border-top: 1px dashed rgba(3,3,3, 0.5);
+	padding-top: 1.3em;
+	margin-bottom: 1.2em;
+}
 .extracted_text {
 	font-size: 1.1em;
 	font-family: Open Sans, sans-serif;
