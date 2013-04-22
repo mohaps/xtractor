@@ -215,13 +215,15 @@ public class ArticleTextExtractor {
 		
 		if (!(imgUrl.startsWith("http://") || imgUrl.startsWith("https://"))) {
 			// System.out.println(">> relative img url : "+imgUrl);
+			
 			if (imgUrl.startsWith("/")) {
-				String rootUrl = SHelper.extractDomain(res.getOriginalUrl(),
-						false);
-				// System.out.println(">>>   ROOT URL : "+rootUrl);
-				imgUrl = rootUrl + imgUrl;
-
-			} else {
+				if(!imgUrl.startsWith("//"))
+				{
+					String rootUrl = SHelper.extractDomain(res.getOriginalUrl(),
+							false);
+					imgUrl = rootUrl + imgUrl;
+				}
+			} else if(!imgUrl.startsWith("./") || !imgUrl.startsWith("../")){
 				String originalUrl = res.getOriginalUrl();
 				if (originalUrl.endsWith("/")) {
 					imgUrl = originalUrl + imgUrl;
@@ -515,12 +517,13 @@ public class ArticleTextExtractor {
 			String sourceUrl = e.attr("src");
 			if(sourceUrl == null || sourceUrl.isEmpty()) {
 				sourceUrl = e.attr("data-src");
-			}
+			} 
 
 			if(sourceUrl == null || sourceUrl.isEmpty()) {
 				continue;
-			}
+			} 
 			//System.out.println(" ==>>> considering image : [" + sourceUrl+ "] e = "+e+"...");
+			
 			if(sourceUrl.endsWith(".gif") || sourceUrl.contains(".gif")){ continue; }
 					
 			if (sourceUrl.isEmpty() || isAdImage(sourceUrl) || sourceUrl.endsWith("spacer.gif") || sourceUrl.endsWith("PinExt.png")) {
