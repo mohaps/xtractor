@@ -72,9 +72,9 @@ public class XTractorServlet extends HttpServlet {
 			req.setAttribute("extracted", result);
 			req.setAttribute("extracted_paragraphs", paras);
 			String absUrl = "http://xtractor.herokuapp.com/xtractor/?url="+URLEncoder.encode(pageUrl,result.getCharset());
-			//System.out.println(">>> Absolute Url : "+absUrl);
+			System.out.println(">>> Absolute Url : "+absUrl);
 			String shortUrl = shortenUrl(absUrl);
-			//System.out.println(">> Short url : "+shortUrl);
+			System.out.println(">> Short url : "+shortUrl);
 			result.setShortUrl(shortUrl);
 			String tweetText = fixed_title.trim();
 			if(tweetText.length() > 100) {
@@ -104,7 +104,7 @@ public class XTractorServlet extends HttpServlet {
 			Url url = as(BITLY_APP_ID,BITLY_APP_KEY).call(shorten(longUrl));
 			return url.getShortUrl();
 		} catch (Exception ex) {
-			ex.printStackTrace();
+			System.err.println(">> Failed to shorten url "+longUrl+" on bitly : "+ex.getLocalizedMessage());
 			return longUrl;
 		}
 		
