@@ -72,9 +72,9 @@ public class XTractorServlet extends HttpServlet {
 			req.setAttribute("extracted", result);
 			req.setAttribute("extracted_paragraphs", paras);
 			String absUrl = "http://xtractor.herokuapp.com/xtractor/?url="+URLEncoder.encode(pageUrl,result.getCharset());
-			System.out.println(">>> Absolute Url : "+absUrl);
+			//System.out.println(">>> Absolute Url : "+absUrl);
 			String shortUrl = shortenUrl(absUrl);
-			System.out.println(">> Short url : "+shortUrl);
+			//System.out.println(">> Short url : "+shortUrl);
 			result.setShortUrl(shortUrl);
 			String tweetText = fixed_title.trim();
 			if(tweetText.length() > 100) {
@@ -82,7 +82,7 @@ public class XTractorServlet extends HttpServlet {
 			}
 			tweetText="\""+tweetText+"\" [via XTractor/@tldrzr]";
 			String tweetItUrl = "https://twitter.com/share?text="+URLEncoder.encode(tweetText, result.getCharset())+"&url="+URLEncoder.encode(shortUrl, result.getCharset())+"&related=tldrzr";
-			System.out.println("Tweet it url : "+tweetItUrl);
+			//System.out.println("Tweet it url : "+tweetItUrl);
 			req.setAttribute("tweet_it_url", tweetItUrl);
 			String encodedPageUrl = URLEncoder.encode(pageUrl, result.getCharset());
 			req.setAttribute("encoded_page_url", encodedPageUrl);
@@ -94,7 +94,7 @@ public class XTractorServlet extends HttpServlet {
 		} catch (Exception ex) {
 			resp.sendError(500, "Failed to extract from url " + pageUrl
 					+ ". error = " + ex.getLocalizedMessage());
-			ex.printStackTrace();
+			//ex.printStackTrace();
 		}
 
 	}
