@@ -44,10 +44,7 @@
 		<div class="mypage" align="left">
 			<!-- Add your site or application content here -->
 			<div class="header">
-				<div align="center">
-					<a href="/"><img src="/images/xtractor_logo_header.png"
-						alt="XTractor - algorithmic text extraction from webpages"
-						style="border: 0px;"></a>
+				<div align="center" id="xtractor_logo_container_div">
 				</div>
 				<div class="topnav" align="center"
 					style="margin-top: 2px; padding-top: 4px; padding-bottom: 4px; margin-bottom: 6px; border-bottom: 1px dashed #434343; border-top: 1px dashed #434343">
@@ -134,6 +131,15 @@
 		</div>
 	</div>
 
+	<script>
+		var logoContainer = document.getElementById('xtractor_logo_container_div');
+		var load_logo_image = function() {
+			logoContainer.innerHTML = '<a href="/"><img name="xtractor_logo_image" src="/images/xtractor_logo_header.png" alt="XTractor - algorithmic text extraction from webpages" style="border: 0px;"></a>';
+		}
+	</script>
+	<script>
+		load_logo_image();
+	</script>
 	<!--  script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
         <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
         <script src="js/plugins.js"></script>
