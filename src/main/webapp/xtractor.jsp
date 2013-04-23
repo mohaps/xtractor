@@ -19,7 +19,7 @@
 <meta http-equiv="Content-Type"
 	content="text/html; charset=${extracted.charset}">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<meta name="description" content="">
+<meta name="description" content="<c:out value="${extracted.summary}" />">
 <meta name="viewport" content="width=device-width">
 <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,900"
 	rel="stylesheet" type="text/css" />
