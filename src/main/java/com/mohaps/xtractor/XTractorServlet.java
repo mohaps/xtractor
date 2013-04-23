@@ -81,7 +81,8 @@ public class XTractorServlet extends HttpServlet {
 				tweetText = tweetText.substring(0,100)+"...";
 			}
 			tweetText="\""+tweetText+"\" ("+shortUrl+") [via XTractor/@tldrzr]";
-			String tweetItUrl = "https://twitter.com/share?text="+URLEncoder.encode(tweetText, result.getCharset())+"&related=tldrzr";
+			String tweetItUrl = "https://twitter.com/share?text="+URLEncoder.encode(tweetText, result.getCharset());
+			System.out.println("Tweet it url : "+tweetItUrl);
 			req.setAttribute("tweet_it_url", tweetItUrl);
 			String encodedPageUrl = URLEncoder.encode(pageUrl, result.getCharset());
 			req.setAttribute("encoded_page_url", encodedPageUrl);
