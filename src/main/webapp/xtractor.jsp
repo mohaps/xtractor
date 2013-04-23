@@ -79,7 +79,7 @@
 							href="http://tldrzr.herokuapp.com">TL;DRzr</a>)
 						</em> <span style="font-size: 0.9em;">from [<a
 							href="<c:out value="${extracted.link}"/>">original article</a>] | <a
-							href="/xtractor?url=<c:out value="${encoded_page_url}"/>">permalink</a> 
+							href="/xtractor?url=<c:out value="${encoded_page_url}"/>">permalink</a> | <a href="<c:out value="${tweet_it_url}"/>">tweet it</a>
 							
 							</span>
 						<blockquote style="color: #FF0303; font-style: italic;">

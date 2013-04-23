@@ -20,7 +20,8 @@ import com.mohaps.tldr.summarize.ISummarizer;
 import com.mohaps.tldr.summarize.Summarizer;
 
 import de.jetwick.snacktory.SHelper;
-
+import com.rosaloves.bitlyj.*;
+import static com.rosaloves.bitlyj.Bitly.*;
 public class XTractorServlet extends HttpServlet {
 
 	private static final Logger LOG = Logger.getLogger(XTractorServlet.class
@@ -37,6 +38,8 @@ public class XTractorServlet extends HttpServlet {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private static final String BITLY_APP_KEY = "R_3f011cf0d9540bd4e89456a006a1f388";
+	private static final String BITLY_APP_ID = "tldrzr";
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -44,6 +47,8 @@ public class XTractorServlet extends HttpServlet {
 		String pathInfo = req.getPathInfo();
 		if (pathInfo == null || pathInfo.length() == 0 || pathInfo.equals("/")) {
 			String pageUrl = req.getParameter("url");
+			
+			
 			if (pageUrl != null && pageUrl.length() > 0) {
 				extractAndShowPage(pageUrl, req, resp);
 			} else {
@@ -58,6 +63,7 @@ public class XTractorServlet extends HttpServlet {
 			HttpServletResponse resp) throws ServletException, IOException {
 
 		try {
+			
 			ExtractorResult result = fetchAndExtractFromUrl(pageUrl);
 			String text2 = SHelper.replaceSmartQuotes(result.getText());
 			String[] paras = text2.split("\\n");
@@ -65,13 +71,24 @@ public class XTractorServlet extends HttpServlet {
 			req.setAttribute("extracted_title", fixed_title);
 			req.setAttribute("extracted", result);
 			req.setAttribute("extracted_paragraphs", paras);
-			String encodedPageUrl = URLEncoder.encode(pageUrl, result.getCharset());
-			req.setAttribute("encoded_page_url", encodedPageUrl);
+			String absUrl = "http://xtractor.herokuapp.com/xtractor/?url="+URLEncoder.encode(pageUrl,result.getCharset());
+			//System.out.println(">>> Absolute Url : "+absUrl);
+			String shortUrl = shortenUrl(absUrl);
+			//System.out.println(">> Short url : "+shortUrl);
+			result.setShortUrl(shortUrl);
 			String tweetText = fixed_title.trim();
 			if(tweetText.length() > 100) {
 				tweetText = tweetText.substring(0,100)+"...";
 			}
-			req.setAttribute("tweet_text", tweetText);
+			tweetText="\""+tweetText+"\" ("+shortUrl+") [via XTractor/@tldrzr]";
+			String tweetItUrl = "https://twitter.com/share?text="+URLEncoder.encode(tweetText, result.getCharset())+"&related=tldrzr";
+			req.setAttribute("tweet_it_url", tweetItUrl);
+			String encodedPageUrl = URLEncoder.encode(pageUrl, result.getCharset());
+			req.setAttribute("encoded_page_url", encodedPageUrl);
+			
+			
+			
+			
 			req.getRequestDispatcher("/xtractor.jsp").forward(req, resp);
 		} catch (Exception ex) {
 			resp.sendError(500, "Failed to extract from url " + pageUrl
@@ -81,6 +98,17 @@ public class XTractorServlet extends HttpServlet {
 
 	}
 
+	protected String shortenUrl(String longUrl) {
+		
+		try {
+			Url url = as(BITLY_APP_ID,BITLY_APP_KEY).call(shorten(longUrl));
+			return url.getShortUrl();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			return longUrl;
+		}
+		
+	}
 	protected void showHomePage(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		resp.sendRedirect("/");

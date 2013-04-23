@@ -14,7 +14,7 @@ public class ExtractorResult {
 	private String charset;
 	private List<String> keywords;
 	private String summary;
-
+	private String shortUrl;
 	public ExtractorResult(String title, String text, String link,
 			String image, String video, String charset, long timeTakenMillis,
 			Collection<String> keywords) {
@@ -26,8 +26,9 @@ public class ExtractorResult {
 		this.charset = charset;
 		this.keywords = new ArrayList<String>(keywords);
 		this.video = video;
+		this.shortUrl = link;
 	}
-
+	public void setShortUrl(String shortUrl){ this.shortUrl = shortUrl; }
 	public void setSummary(String summary){ this.summary = summary; }
 	public String getSummary(){ return summary; }
 	public String getVideo() {
