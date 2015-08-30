@@ -1,6 +1,9 @@
 # XTractor - heuristics based webpage text extraction demo
 Demo: http://xtractor.herokuapp.com
 
+Sample URL: Fox News review of the movie Oblivion : http://xtractor.herokuapp.com/xtractor/?url=http%3A%2F%2Fwww.foxnews.com%2Fentertainment%2F2013%2F04%2F18%2Freview-tom-cruise-tones-it-down-in-visually-stunning-oblivion%2F
+
+
 Xtractor tries to guess the main body of the article and grab one significant image from the page. Then it strips off all formatting and presents the article with just the image as header, a short summary and paragraph preserved simple readable text.
 
 I had written this close to 3 years back (https://news.ycombinator.com/item?id=5580719)
