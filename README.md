@@ -27,3 +27,19 @@ Then run it with:
 
     $java -cp target/classes:target/dependency/* com.example.Main
 
+## Library usage example
+
+    Fetcher fetcher = new Fetcher();
+    Extractor extractor = new Extractor(fetcher);
+    ISummarizer summarizer = Factory.getSummarizer();
+
+    String url = "http://www.bbc.com/news/science-environment-34510869";
+    FetchResult fResult = fetcher.fetch(url);
+    ExtractorResult eResult = extractor.extract(fResult.getContent(), fResult.getCharset(), fResult.getActualUrl());
+
+    System.out.print("title:  \t"+ SHelper.replaceSmartQuotes(eResult.getTitle()) + "\n");
+    System.out.print("summary:\t"+ SHelper.replaceSmartQuotes(summarizer.summarize(eResult.getText(), 1)) + "\n");
+    System.out.print("image:  \t"+ eResult.getImage() + "\n");
+    System.out.print("video:  \t"+ eResult.getVideo() + "\n");
+    System.out.print("body:   \t"+ SHelper.replaceSmartQuotes(eResult.getText()) + "\n");
+
