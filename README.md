@@ -44,3 +44,4 @@ Then run it with:
     System.out.print("video:  \t"+ eResult.getVideo() + "\n");
     System.out.print("body:   \t"+ SHelper.replaceSmartQuotes(eResult.getText()) + "\n");
 
+    fetcher.shutdown(); // Have to be shutdown to finish the process
