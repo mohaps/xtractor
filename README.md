@@ -33,7 +33,7 @@ Then run it with:
     Extractor extractor = new Extractor(fetcher);
     ISummarizer summarizer = Factory.getSummarizer();
 
-    Int summarySentenceNb = 1;
+    int summarySentenceNb = 1;
     String url = "http://www.bbc.com/news/science-environment-34510869";
     FetchResult fResult = fetcher.fetch(url);
     ExtractorResult eResult = extractor.extract(fResult.getContent(), fResult.getCharset(), fResult.getActualUrl());
