@@ -27,3 +27,22 @@ Then run it with:
 
     $java -cp target/classes:target/dependency/* com.example.Main
 
+## Library usage example
+
+    Fetcher fetcher = new Fetcher();
+    Extractor extractor = new Extractor(fetcher);
+    ISummarizer summarizer = Factory.getSummarizer();
+
+    int summarySentenceNb = 1;
+    long timeout = 1000; // 1s
+    String url = "http://www.bbc.com/news/science-environment-34510869";
+    FetchResult fResult = fetcher.fetch(url, timeout);
+    ExtractorResult eResult = extractor.extract(fResult.getContent(), fResult.getCharset(), fResult.getActualUrl());
+
+    System.out.print("title:  \t"+ SHelper.replaceSmartQuotes(eResult.getTitle()) + "\n");
+    System.out.print("summary:\t"+ SHelper.replaceSmartQuotes(summarizer.summarize(eResult.getText(), summarySentenceNb)) + "\n");
+    System.out.print("image:  \t"+ eResult.getImage() + "\n");
+    System.out.print("video:  \t"+ eResult.getVideo() + "\n");
+    System.out.print("body:   \t"+ SHelper.replaceSmartQuotes(eResult.getText()) + "\n");
+
+    fetcher.shutdown(); // Have to be shutdown to finish the process
