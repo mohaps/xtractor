@@ -34,8 +34,9 @@ Then run it with:
     ISummarizer summarizer = Factory.getSummarizer();
 
     int summarySentenceNb = 1;
+    long timeout = 1000; // 1s
     String url = "http://www.bbc.com/news/science-environment-34510869";
-    FetchResult fResult = fetcher.fetch(url);
+    FetchResult fResult = fetcher.fetch(url, timeout);
     ExtractorResult eResult = extractor.extract(fResult.getContent(), fResult.getCharset(), fResult.getActualUrl());
 
     System.out.print("title:  \t"+ SHelper.replaceSmartQuotes(eResult.getTitle()) + "\n");
