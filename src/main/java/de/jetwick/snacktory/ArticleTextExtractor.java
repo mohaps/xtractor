@@ -779,7 +779,7 @@ public class ArticleTextExtractor {
 		}
 
 		largeText = largeText.replace("&raquo;", " ");
-		largeText = largeText.replace("»", " ");
+		largeText = largeText.replace("\u00BB", " ");
 		return largeText.trim();
 	}
 

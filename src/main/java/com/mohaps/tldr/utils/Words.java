@@ -248,7 +248,7 @@ public final class Words {
 	}
 	
 	public static void main(String[] args) {
-		String s = "–than estimated by Umeng–";
+		String s = "-than estimated by Umeng-";
 		for(int i = 0; i < s.length(); i++){
 			System.out.println(">> Char Code "+(short)s.charAt(i)+" (0x"+Integer.toHexString((short)s.charAt(i))+") - {"+s.charAt(i)+"}");
 		}
