@@ -38,9 +38,10 @@ Then run it with:
     String url = "http://www.bbc.com/news/science-environment-34510869";
     FetchResult fResult = fetcher.fetch(url, timeout);
     ExtractorResult eResult = extractor.extract(fResult.getContent(), fResult.getCharset(), fResult.getActualUrl());
+    String summary = summarizer.summarize(eResult.getText(), summarySentenceNb);
 
     System.out.print("title:  \t"+ SHelper.replaceSmartQuotes(eResult.getTitle()) + "\n");
-    System.out.print("summary:\t"+ SHelper.replaceSmartQuotes(summarizer.summarize(eResult.getText(), summarySentenceNb)) + "\n");
+    System.out.print("summary:\t"+ SHelper.replaceSmartQuotes(summary) + "\n");
     System.out.print("image:  \t"+ eResult.getImage() + "\n");
     System.out.print("video:  \t"+ eResult.getVideo() + "\n");
     System.out.print("body:   \t"+ SHelper.replaceSmartQuotes(eResult.getText()) + "\n");
