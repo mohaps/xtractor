@@ -16,6 +16,9 @@ public class Extractor {
 
 	private OutputFormatter formatter = new OutputFormatter();
 	private Fetcher fetcher;
+	public Extractor() {
+		this.fetcher = null;
+	}
 	public Extractor(Fetcher fetcher) {
 		this.fetcher = fetcher;
 	}
